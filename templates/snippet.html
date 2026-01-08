@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>{{snippet.name}} - Documentación</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  <header>
+    <h1>
+      <a href="../index.html" class="back-arrow">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M15 8a.5.5 0 0 1-.5.5H2.707l4.147 4.146a.5.5 0 0 1-.708.708l-5-5a.5.5 0 0 1 0-.708l5-5a.5.5 0 1 1 .708.708L2.707 7.5H14.5A.5.5 0 0 1 15 8z"/>
+        </svg>
+      </a>
+      {{snippet.name}}
+    </h1>
+  </header>
+  <main>
+    <h2>Descripción</h2>
+    <p>{{snippet.description}}</p>
+
+    <h2>Snippet de código</h2>
+    <pre>{{snippet.body}}</pre>
+  </main>
+</body>
+</html>

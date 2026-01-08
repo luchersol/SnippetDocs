@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Documentación de Snippets</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Documentación de Snippets</h1>
+  </header>
+  {% macro render_tree(node, level=0) %}
+    {% for key, value in node.items() %}
+      <div class="level level-{{ level }}">
+        <details>
+          <summary>{{ key }}</summary>
+
+          {% if value is mapping %}
+            {{ render_tree(value, level + 1) }}
+          {% else %}
+            {% for snippet in value %}
+              <a href="{{ snippet.file }}">{{ snippet.name }}</a><br>
+            {% endfor %}
+          {% endif %}
+        </details>
+      </div>
+    {% endfor %}
+  {% endmacro %}
+
+  <main>
+    <nav>
+      {{ render_tree(tree) }}
+    </nav>
+  </main>
+</body>
+</html>

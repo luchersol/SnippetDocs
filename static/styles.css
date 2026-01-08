@@ -1,0 +1,213 @@
+/* =========================
+   RESET BÁSICO
+========================= */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
+               Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background-color: #f5f6f8;
+  color: #333;
+}
+
+/* =========================
+   LAYOUT GENERAL
+========================= */
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+header {
+  background-color: #1e1e1e;
+  color: #ffffff;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #333;
+}
+
+header h1 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.back-arrow svg {
+  width: 1.2rem;
+  height: 1.2rem;
+  fill: #ffffff; /* color de la flecha */
+  transition: fill 0.2s;
+}
+
+.back-arrow:hover svg {
+  fill: #1a73e8;
+}
+
+main {
+  display: flex;
+  flex-direction: column; /* Se asegura que nav y content estén en fila */
+  flex: 1;
+  padding: 3vw;
+  overflow: hidden;
+}
+
+/* =========================
+   NAVEGACIÓN (SIDEBAR)
+========================= */
+nav {
+  background-color: #ffffff;
+  border-right: 1px solid #ddd;
+  padding: 1rem;
+  overflow-y: auto;
+  flex-shrink: 0; /* Evita que se encoja */
+  max-height: fit-content;
+}
+
+nav a {
+  display: block;
+  padding: 6px 8px;
+  margin: 4px 0;
+  text-decoration: none;
+  color: #2c3e50;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+nav a:hover {
+  background-color: #e8f0fe;
+  color: #1a73e8;
+}
+
+nav a.active {
+  background-color: #d2e3fc;
+  color: #174ea6;
+  font-weight: 500;
+}
+
+/* =========================
+   ÁRBOL DESPLEGABLE
+========================= */
+details {
+  margin: 4px 0;
+}
+
+summary {
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 4px;
+  font-weight: 500;
+  list-style: none;
+  user-select: none;
+}
+
+summary:hover {
+  background-color: #f0f0f0;
+}
+
+summary::marker {
+  display: none;
+}
+
+/* Iconos de carpeta */
+summary::before {
+  content: "📁 ";
+}
+
+details[open] > summary::before {
+  content: "📂 ";
+}
+
+/* =========================
+   NIVELES DE INDENTACIÓN
+========================= */
+.level-0 { margin-left: 0; }
+.level-1 { margin-left: 16px; }
+.level-2 { margin-left: 32px; }
+.level-3 { margin-left: 48px; }
+.level-4 { margin-left: 64px; }
+.level-5 { margin-left: 80px; }
+
+/* =========================
+   CONTENIDO PRINCIPAL
+========================= */
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column; /* Esto asegura que los elementos internos vayan por filas */
+  padding: 2rem;
+  overflow-y: auto;
+  background-color: #fafafa;
+}
+
+.content h1 {
+  font-size: 1.6rem;
+  margin-bottom: 1rem;
+}
+
+.content h2 {
+  font-size: 1.3rem;
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 0.3rem;
+}
+
+.content p {
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+/* =========================
+   BLOQUES DE CÓDIGO
+========================= */
+pre {
+  background-color: #1e1e1e;
+  color: #d4d4d4;
+  padding: 1rem;
+  border-radius: 6px;
+  overflow-x: auto;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-top: 0.5rem;
+}
+
+code {
+  font-family: "Fira Code", Consolas, Monaco, monospace;
+}
+
+/* =========================
+   FOOTER
+========================= */
+footer {
+  background-color: #1e1e1e;
+  color: #aaa;
+  text-align: center;
+  padding: 0.7rem;
+  font-size: 0.8rem;
+  border-top: 1px solid #333;
+}
+
+/* =========================
+   SCROLLBAR PERSONALIZADO
+========================= */
+nav::-webkit-scrollbar,
+.content::-webkit-scrollbar {
+  width: 8px;
+}
+
+nav::-webkit-scrollbar-thumb,
+.content::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 4px;
+}
+
+nav::-webkit-scrollbar-thumb:hover,
+.content::-webkit-scrollbar-thumb:hover {
+  background-color: #aaa;
+}
