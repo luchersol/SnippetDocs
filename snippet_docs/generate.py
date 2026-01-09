@@ -1,12 +1,12 @@
-import os
+import argparse
+import shutil
 import commentjson as json
+
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from dataclasses import dataclass
 from typing import List
 from pathlib import Path
 from logger import logger
-
-import shutil
 
 @dataclass
 class Snippet:
@@ -52,7 +52,9 @@ def slugify(text: str) -> str:
     )
 
 
-def generate_docs(snippets_dir="example", output_dir="dist"):
+def generate_docs(snippets_dir=None, output_dir="dist"):
+    snippets_dir = Path.cwd() if snippets_dir is None else Path(snippets_dir)
+    
     env = Environment(
         loader=FileSystemLoader("templates"),
         autoescape=select_autoescape(["html"])
@@ -61,7 +63,7 @@ def generate_docs(snippets_dir="example", output_dir="dist"):
     index_template = env.get_template("index.html")
     snippet_template = env.get_template("snippet.html")
 
-    output_dir = snippets_dir / Path(output_dir)
+    output_dir = snippets_dir / output_dir
     snippets_html_dir = output_dir / "snippets"
     snippets_html_dir.mkdir(parents=True, exist_ok=True)
 
@@ -116,4 +118,23 @@ def generate_docs(snippets_dir="example", output_dir="dist"):
 
     logger.info(f"Documentation generated in: {output_dir.resolve()}")
 
-generate_docs()
+def main():
+    parser = argparse.ArgumentParser(
+        description="Generates HTML documentation for snippet files"
+    )
+    parser.add_argument(
+        "-i", "--input",
+        default=None,
+        help="Folder containing .code-snippets files"
+    )
+    parser.add_argument(
+        "-o", "--output",
+        default="dist",
+        help="Output folder for HTML files"
+    )
+    args = parser.parse_args()
+
+    snippets_dir = args.input
+    output_dir = args.output
+
+    generate_docs(snippets_dir, output_dir)
