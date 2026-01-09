@@ -17,5 +17,5 @@ setup(
         'snippet_docs': ['templates/*.html'],
     },
     python_requires='>=3.7',
-    description='Generador de documentación estática tipo Javadoc para snippets',
+    description='HTML documentation generator for snippets',
 )

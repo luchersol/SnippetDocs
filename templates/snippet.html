@@ -17,11 +17,29 @@
     </h1>
   </header>
   <main>
-    <h2>Descripción</h2>
-    <p>{{snippet.description}}</p>
-
-    <h2>Snippet de código</h2>
-    <pre>{{snippet.body}}</pre>
+    <div style="padding: 5vh; width: 100%;">
+      <h2>Descripción</h2>
+      <p>{{snippet.description}}</p>
+      <br>
+      <h2>Scopes</h2>
+      <div style="margin-top: 4px; display: flex; flex-direction: row; overflow-x: auto;">
+      {% for value in snippet.scope %}
+        <div style="background-color: white; 
+                    border: 1px black solid; 
+                    border-radius: 5px; 
+                    width: fit-content; 
+                    padding-inline: 10px;
+                    padding-block: 4px;
+                    margin-top: 4px;
+                    margin-inline: 8px;">
+          <p>{{value}}</p>
+        </div>
+      {% endfor %}
+      </div>
+      <br>
+      <h2>Snippet de código</h2>
+      <pre>{{snippet.body}}</pre>
+    </div>
   </main>
 </body>
 </html>

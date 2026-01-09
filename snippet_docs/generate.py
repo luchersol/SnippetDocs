@@ -4,8 +4,24 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 from dataclasses import dataclass
 from typing import List
 from pathlib import Path
+from logger import logger
 
 import shutil
+
+@dataclass
+class Snippet:
+    name: str
+    scope: List[str]
+    prefix: str
+    description: str
+    body: str
+
+    def __init__(self, name, snippet_aux):
+        self.name=name
+        self.scope=map(lambda x="": x.strip(), snippet_aux.get("scope", "").split(","))
+        self.prefix=snippet_aux.get("prefix", "")
+        self.description=snippet_aux.get("description", "")
+        self.body="\n".join(snippet_aux.get("body", []))
 
 def copy_static_files(output_dir):
     static_dir = Path("static")
@@ -16,31 +32,23 @@ def copy_static_files(output_dir):
         if file.is_file():
             shutil.copy(file, output_dir / file.name)
 
-@dataclass
-class Snippet:
-    name: str
-    scope: str
-    prefix: str
-    description: str
-    body: List[str]
-
-def get_all_files(root_dir="example"):
-    all_files = []
-    for dirpath, dirnames, filenames in os.walk(root_dir):
-        for file in filenames:
-            if(file.endswith(".code-snippets")):
-                file_path = os.path.join(dirpath, file)
-                all_files.append(file_path)
-    if len(all_files) == 0:
-        print("No existen snippets")
+def get_all_files(root_dir):
+    logger.info("Analyzing snippets...")
+    root_path = Path(root_dir)
+    all_files = list(root_path.rglob("*.code-snippets"))  # busca recursivamente
+    if all_files:
+        for f in all_files:
+            logger.info(f"Code Snippet file: {f}")
+    else:
+        logger.warning("No snippets exist")
+    return all_files
     return all_files
 
 def slugify(text: str) -> str:
     return (
-        text.lower()
-        .replace(" ", "-")
-        .replace("/", "-")
-        .replace("\\", "-")
+        text.replace(" ", "-")
+            .replace("/", "-")
+            .replace("\\", "-")
     )
 
 
@@ -53,7 +61,7 @@ def generate_docs(snippets_dir="example", output_dir="dist"):
     index_template = env.get_template("index.html")
     snippet_template = env.get_template("snippet.html")
 
-    output_dir = Path(output_dir)
+    output_dir = snippets_dir / Path(output_dir)
     snippets_html_dir = output_dir / "snippets"
     snippets_html_dir.mkdir(parents=True, exist_ok=True)
 
@@ -67,8 +75,8 @@ def generate_docs(snippets_dir="example", output_dir="dist"):
 
         # Ruta relativa (carpetas internas)
         relative_parts = snippet_file.relative_to(base_path).parts
-        folders = relative_parts[:-1]           # carpetas
-        file_name = relative_parts[-1]           # archivo .code-snippets
+        folders = relative_parts[:-1]                                  # carpetas
+        file_name = relative_parts[-1].removesuffix(".code-snippets")  # archivo .code-snippets
 
         current_level = tree
 
@@ -85,13 +93,7 @@ def generate_docs(snippets_dir="example", output_dir="dist"):
             data = json.load(f)
 
         for name, snippet in data.items():
-            snippet_obj = Snippet(
-                name=name,
-                scope=snippet.get("scope", ""),
-                prefix=snippet.get("prefix", ""),
-                description=snippet.get("description", ""),
-                body="\n".join(snippet.get("body", []))
-            )
+            snippet_obj = Snippet(name, snippet)
 
             html_name = slugify(name) + ".html"
             html_path = snippets_html_dir / html_name
@@ -111,6 +113,7 @@ def generate_docs(snippets_dir="example", output_dir="dist"):
     with open(output_dir / "index.html", "w", encoding="utf-8") as f:
         f.write(rendered_index)
     copy_static_files(output_dir)
-    print(f"📄 Documentación generada en: {output_dir.resolve()}")
+
+    logger.info(f"Documentation generated in: {output_dir.resolve()}")
 
 generate_docs()

@@ -11,7 +11,7 @@ html, body {
   height: 100%;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
                Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  background-color: #f5f6f8;
+  background-color: #e3e3e3;
   color: #333;
 }
 
@@ -38,6 +38,7 @@ header h1 {
 }
 
 .back-arrow svg {
+  margin-inline: 10px;
   width: 1.2rem;
   height: 1.2rem;
   fill: #ffffff; /* color de la flecha */
@@ -50,9 +51,8 @@ header h1 {
 
 main {
   display: flex;
-  flex-direction: column; /* Se asegura que nav y content estén en fila */
+  flex-direction: row; /* Coloca nav y content lado a lado */
   flex: 1;
-  padding: 3vw;
   overflow: hidden;
 }
 
@@ -63,9 +63,12 @@ nav {
   background-color: #ffffff;
   border-right: 1px solid #ddd;
   padding: 1rem;
+  margin-top: 2.5%;
+  margin-left: 2.5%;
   overflow-y: auto;
   flex-shrink: 0; /* Evita que se encoja */
-  max-height: fit-content;
+  width: 95vw;
+  height: 80vh;
 }
 
 nav a {
@@ -76,6 +79,7 @@ nav a {
   color: #2c3e50;
   border-radius: 4px;
   font-size: 0.95rem;
+  background-color: #e3e3e3;
   transition: background-color 0.2s, color 0.2s;
 }
 
@@ -115,13 +119,14 @@ summary::marker {
 }
 
 /* Iconos de carpeta */
-summary::before {
+summary.folder::before {
   content: "📁 ";
 }
 
-details[open] > summary::before {
-  content: "📂 ";
+summary.file::before {
+  content: "📄 ";
 }
+
 
 /* =========================
    NIVELES DE INDENTACIÓN
@@ -139,10 +144,11 @@ details[open] > summary::before {
 .content {
   flex: 1;
   display: flex;
-  flex-direction: column; /* Esto asegura que los elementos internos vayan por filas */
-  padding: 2rem;
+  flex-direction: column;
+  padding: 3vw 2rem;
   overflow-y: auto;
   background-color: #fafafa;
+  min-width: 0;
 }
 
 .content h1 {

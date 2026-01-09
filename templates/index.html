@@ -13,13 +13,13 @@
     {% for key, value in node.items() %}
       <div class="level level-{{ level }}">
         <details>
-          <summary>{{ key }}</summary>
+          <summary class="{% if value is mapping %}folder{% else %}file{% endif %}">{{ key }}</summary>
 
           {% if value is mapping %}
             {{ render_tree(value, level + 1) }}
           {% else %}
             {% for snippet in value %}
-              <a href="{{ snippet.file }}">{{ snippet.name }}</a><br>
+              <a href="{{ snippet.file }}">{{ snippet.name }}</a>
             {% endfor %}
           {% endif %}
         </details>
