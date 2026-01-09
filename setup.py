@@ -7,6 +7,7 @@ setup(
     include_package_data=True,  # Incluye templates
     install_requires=[
         'Jinja2',
+        'commentjson',
     ],
     entry_points={
         'console_scripts': [
