@@ -1,0 +1,2 @@
+recursive-include snippet_docs/templates *.html
+recursive-include snippet_docs/static *

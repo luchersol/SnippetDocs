@@ -2,7 +2,8 @@ import argparse
 import shutil
 import commentjson as json
 
-from jinja2 import Environment, FileSystemLoader, select_autoescape
+from importlib.resources import files
+from jinja2 import Environment, PackageLoader, FileSystemLoader, select_autoescape
 from dataclasses import dataclass
 from typing import List
 from pathlib import Path
@@ -24,7 +25,7 @@ class Snippet:
         self.body="\n".join(snippet_aux.get("body", []))
 
 def copy_static_files(output_dir):
-    static_dir = Path("static")
+    static_dir = files("snippet_docs").joinpath("static")
     if not static_dir.exists():
         return
 
@@ -56,7 +57,7 @@ def generate_docs(snippets_dir=None, output_dir="dist"):
     snippets_dir = Path.cwd() if snippets_dir is None else Path(snippets_dir)
     
     env = Environment(
-        loader=FileSystemLoader("templates"),
+        loader=PackageLoader("snippet_docs", "templates"),
         autoescape=select_autoescape(["html"])
     )
 
