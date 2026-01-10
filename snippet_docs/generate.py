@@ -6,7 +6,7 @@ from jinja2 import Environment, FileSystemLoader, select_autoescape
 from dataclasses import dataclass
 from typing import List
 from pathlib import Path
-from logger import logger
+from .logger import log
 
 @dataclass
 class Snippet:
@@ -33,14 +33,14 @@ def copy_static_files(output_dir):
             shutil.copy(file, output_dir / file.name)
 
 def get_all_files(root_dir):
-    logger.info("Analyzing snippets...")
+    log.info("Analyzing snippets...")
     root_path = Path(root_dir)
     all_files = list(root_path.rglob("*.code-snippets"))  # busca recursivamente
     if all_files:
         for f in all_files:
-            logger.info(f"Code Snippet file: {f}")
+            log.info(f"Code Snippet file: {f}")
     else:
-        logger.warning("No snippets exist")
+        log.warning("No snippets exist")
     return all_files
     return all_files
 
@@ -116,7 +116,7 @@ def generate_docs(snippets_dir=None, output_dir="dist"):
         f.write(rendered_index)
     copy_static_files(output_dir)
 
-    logger.info(f"Documentation generated in: {output_dir.resolve()}")
+    log.info(f"Documentation generated in: {output_dir.resolve()}")
 
 def main():
     parser = argparse.ArgumentParser(

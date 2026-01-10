@@ -15,6 +15,6 @@ class ColorHandler(logging.StreamHandler):
         record.msg = f"{color} [{record.levelname}] {record.msg}{self.RESET}"
         super().emit(record)
 
-logger = logging.getLogger()
-logger.setLevel(logging.DEBUG)
-logger.addHandler(ColorHandler())
+log = logging.getLogger()
+log.setLevel(logging.DEBUG)
+log.addHandler(ColorHandler())
