@@ -63,8 +63,8 @@ def slugify(text: str) -> str:
     )
 
 
-def generate_docs(snippets_dir=None, output_dir="dist"):
-    snippets_dir = Path.cwd() if snippets_dir is None else Path(snippets_dir)
+def generate_docs(input_dir=None, output_dir="dist"):
+    input_dir = Path.cwd() if input_dir is None else Path(input_dir)
     
     env = Environment(
         loader=PackageLoader("snippet_docs", "templates"),
@@ -74,16 +74,18 @@ def generate_docs(snippets_dir=None, output_dir="dist"):
     index_template = env.get_template("index.html")
     snippet_template = env.get_template("snippet.html")
 
-    output_dir = snippets_dir / output_dir
+    if not output_dir.is_absolute():
+        output_dir = input_dir / output_dir
+        
     snippets_html_dir = output_dir / "snippets"
     snippets_html_dir.mkdir(parents=True, exist_ok=True)
 
     # Árbol completo: carpeta → archivo → snippets
     tree = {}
 
-    base_path = Path(snippets_dir).resolve()
+    base_path = Path(input_dir).resolve()
 
-    for snippet_file in get_all_files(snippets_dir):
+    for snippet_file in get_all_files(input_dir):
         snippet_file = Path(snippet_file).resolve()
 
         # Ruta relativa (carpetas internas)
