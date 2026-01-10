@@ -13,16 +13,27 @@ from .logger import log
 class Snippet:
     name: str
     scope: List[str]
+    is_file_template: bool
     prefix: str
     description: str
     body: str
 
     def __init__(self, name, snippet_aux):
         self.name=name
-        self.scope=map(lambda x="": x.strip(), snippet_aux.get("scope", "").split(","))
-        self.prefix=snippet_aux.get("prefix", "")
+        
+        self.scope = [x.strip() for x in snippet_aux.get("scope", []) if x]
+
+        is_file_template_aux = snippet_aux.get("isFileTemplate", False)
+        self.is_file_template = snippet_aux if isinstance(snippet_aux, bool) else is_file_template_aux.strip().lower() == "true"
+
+        prefix_aux = snippet_aux.get("prefix", "")
+        prefix_aux = prefix_aux if isinstance(body_aux, list) else prefix_aux.split(",")
+        self.prefix = [x.strip() for x in prefix_aux if x]
+        
         self.description=snippet_aux.get("description", "")
-        self.body="\n".join(snippet_aux.get("body", []))
+        
+        body_aux = snippet_aux.get("body", [])
+        self.body= body_aux if isinstance(body_aux, str) else "\n".join(body_aux)
 
 def copy_static_files(output_dir):
     static_dir = files("snippet_docs").joinpath("static")
@@ -42,7 +53,6 @@ def get_all_files(root_dir):
             log.info(f"Code Snippet file: {f}")
     else:
         log.warning("No snippets exist")
-    return all_files
     return all_files
 
 def slugify(text: str) -> str:
@@ -120,19 +130,9 @@ def generate_docs(snippets_dir=None, output_dir="dist"):
     log.info(f"Documentation generated in: {output_dir.resolve()}")
 
 def main():
-    parser = argparse.ArgumentParser(
-        description="Generates HTML documentation for snippet files"
-    )
-    parser.add_argument(
-        "-i", "--input",
-        default=None,
-        help="Folder containing .code-snippets files"
-    )
-    parser.add_argument(
-        "-o", "--output",
-        default="dist",
-        help="Output folder for HTML files"
-    )
+    parser = argparse.ArgumentParser(description="Generates HTML documentation for snippet files")
+    parser.add_argument("-i", "--input", default=None, help="Folder containing .code-snippets files")
+    parser.add_argument("-o", "--output", default="dist", help="Output folder for HTML files")
     args = parser.parse_args()
 
     snippets_dir = args.input
