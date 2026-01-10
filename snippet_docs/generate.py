@@ -65,6 +65,7 @@ def slugify(text: str) -> str:
 
 def generate_docs(input_dir=None, output_dir="dist"):
     input_dir = Path.cwd() if input_dir is None else Path(input_dir)
+    output_dir = Path(output_dir)
     
     env = Environment(
         loader=PackageLoader("snippet_docs", "templates"),
@@ -76,7 +77,7 @@ def generate_docs(input_dir=None, output_dir="dist"):
 
     if not output_dir.is_absolute():
         output_dir = input_dir / output_dir
-        
+
     snippets_html_dir = output_dir / "snippets"
     snippets_html_dir.mkdir(parents=True, exist_ok=True)
 
