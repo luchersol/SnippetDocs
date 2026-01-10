@@ -21,7 +21,7 @@ class Snippet:
     def __init__(self, name, snippet_aux):
         self.name=name
         
-        self.scope = [x.strip() for x in snippet_aux.get("scope", []) if x]
+        self.scope = [x.strip() for x in snippet_aux.get("scope", "").split(",") if x]
 
         is_file_template_aux = snippet_aux.get("isFileTemplate", False)
         self.is_file_template = is_file_template_aux if isinstance(is_file_template_aux, bool) else is_file_template_aux.strip().lower() == "true"

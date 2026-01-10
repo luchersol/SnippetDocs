@@ -21,14 +21,8 @@
       <h2>Descripción</h2>
       <p>{{snippet.description}}</p>
       <br>
-      <h2>File Template</h2>
-      <p>
-        {% if snippet.is_file_template %}
-          Enabled ✅
-        {% else %}
-          Disabled ❌
-        {% endif %}
-      </p>
+      <h2>File Template: {% if snippet.is_file_template %} ✅ {% else %} ❌ {% endif %}</h2>
+      <br>
       <h2>Prefix</h2>
       <div style="margin-top: 4px; display: flex; flex-direction: row; overflow-x: auto;">
       {% for value in snippet.prefix %}
