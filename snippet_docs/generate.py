@@ -24,10 +24,10 @@ class Snippet:
         self.scope = [x.strip() for x in snippet_aux.get("scope", []) if x]
 
         is_file_template_aux = snippet_aux.get("isFileTemplate", False)
-        self.is_file_template = snippet_aux if isinstance(snippet_aux, bool) else is_file_template_aux.strip().lower() == "true"
+        self.is_file_template = is_file_template_aux if isinstance(is_file_template_aux, bool) else is_file_template_aux.strip().lower() == "true"
 
         prefix_aux = snippet_aux.get("prefix", "")
-        prefix_aux = prefix_aux if isinstance(body_aux, list) else prefix_aux.split(",")
+        prefix_aux = prefix_aux if isinstance(prefix_aux, list) else prefix_aux.split(",")
         self.prefix = [x.strip() for x in prefix_aux if x]
         
         self.description=snippet_aux.get("description", "")
