@@ -76,7 +76,7 @@ def generate_docs(input_dir=None, output_dir="dist"):
     snippet_template = env.get_template("snippet.html")
 
     if not output_dir.is_absolute():
-        output_dir = input_dir / output_dir
+        output_dir = Path.cwd() / output_dir
 
     snippets_html_dir = output_dir / "snippets"
     snippets_html_dir.mkdir(parents=True, exist_ok=True)
