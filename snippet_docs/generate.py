@@ -35,14 +35,25 @@ class Snippet:
         body_aux = snippet_aux.get("body", [])
         self.body= body_aux if isinstance(body_aux, str) else "\n".join(body_aux)
 
-def copy_static_files(output_dir):
-    static_dir = files("snippet_docs").joinpath("static")
-    if not static_dir.exists():
-        return
+def copy_assets(output_dir):
+    package_root = files("snippet_docs")
 
-    for file in static_dir.iterdir():
-        if file.is_file():
-            shutil.copy(file, output_dir / file.name)
+    folders_to_copy = ["static", "scripts"]
+
+    for folder_name in folders_to_copy:
+        source_dir = package_root / folder_name
+
+        if not source_dir.exists():
+            continue
+
+        destination_dir = output_dir / folder_name
+
+        # Copia recursiva de la carpeta completa
+        shutil.copytree(
+            source_dir,
+            destination_dir,
+            dirs_exist_ok=True  # Python 3.8+
+        )
 
 def get_all_files(root_dir):
     log.info("Analyzing snippets...")
@@ -128,7 +139,7 @@ def generate_docs(input_dir=None, output_dir="dist"):
     rendered_index = index_template.render(tree=tree)
     with open(output_dir / "index.html", "w", encoding="utf-8") as f:
         f.write(rendered_index)
-    copy_static_files(output_dir)
+    copy_assets(output_dir)
 
     log.info(f"Documentation generated in: {output_dir.resolve()}")
 
