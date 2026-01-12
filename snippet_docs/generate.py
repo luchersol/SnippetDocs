@@ -44,6 +44,7 @@ def copy_assets(output_dir):
         source_dir = package_root / folder_name
 
         if not source_dir.exists():
+            log.warning(f"Folder {source_dir} not exist")
             continue
 
         destination_dir = output_dir / folder_name
