@@ -85,7 +85,7 @@ def generate_docs(input_dir=None, output_dir="dist"):
     )
 
     index_template = env.get_template("index.html")
-    snippet_template = env.get_template("snippet.html")
+    snippet_template = env.get_template("snippets/index.html")
 
     if not output_dir.is_absolute():
         output_dir = Path.cwd() / output_dir
