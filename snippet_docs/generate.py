@@ -42,8 +42,8 @@ def copy_assets(output_dir):
 
     
     for folder_name in folders_to_copy:
-        log.info("Copy folder {folder_name}...")
         source_dir = package_root / folder_name
+        log.info(f"Copying folder {source_dir}...")
 
         if not source_dir.exists():
             log.warning(f"Folder {source_dir} not exist")
