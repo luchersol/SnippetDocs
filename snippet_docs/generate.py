@@ -40,7 +40,9 @@ def copy_assets(output_dir):
 
     folders_to_copy = ["static", "scripts"]
 
+    
     for folder_name in folders_to_copy:
+        log.info("Copy folder {folder_name}...")
         source_dir = package_root / folder_name
 
         if not source_dir.exists():
