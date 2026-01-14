@@ -119,8 +119,13 @@ def generate_docs(input_dir=None, output_dir="dist"):
             current_level[file_name] = []
 
         # Leer snippets
-        with open(snippet_file, "r", encoding="utf-8") as f:
-            data = json.load(f)
+        try:
+            with open(snippet_file, "r", encoding="utf-8") as f:
+                data = json.load(f)
+        except Exception as e:
+            log.error(f"Error loading json: {e}")
+            continue
+
 
         for name, snippet in data.items():
             snippet_obj = Snippet(name, snippet)
